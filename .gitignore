@@ -3,6 +3,3 @@ venv/*
 
 # ignore the .idea folder
 .idea/*
-
-# ignore the .gitignore file
-.gitignore
