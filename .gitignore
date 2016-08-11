@@ -1,7 +1,7 @@
 # ignore the venv
 venv/*
 
-# ignore the .idea folder
 .idea/*
-
 app/__pycache__/*
+__pycache__/*
+.gitignore
