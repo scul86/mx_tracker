@@ -3,12 +3,13 @@ from app import db, app
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
-    passwd = db.Column(db.String(128))
+    '''passwd = db.Column(db.String(128))
     mileage = db.Column(db.DECIMAL, index=True)
     # gas_stop = db.relationship('GasStop', backref='veh', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     # about_me = db.Column(db.String(140))
-    last_updated = db.Column(db.DateTime)
+    last_updated = db.Column(db.DateTime)'''
+
     '''
     @staticmethod
     def make_unique_name(name):
@@ -44,7 +45,7 @@ class Vehicle(db.Model):
     def __repr__(self):
         return '<Vehicle {}>'.format(self.name)
 
-
+'''
 class GasStop(db.Model):
     # __searchable__ = ['body']
 
@@ -58,4 +59,4 @@ class GasStop(db.Model):
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
 
     def __repr__(self):
-        return '<GasStop {}>'.format(self.id)
+        return '<GasStop {}>'.format(self.id)'''
