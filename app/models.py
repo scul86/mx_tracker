@@ -1,13 +1,12 @@
-from app import db
-from app import app
+from app import db, app
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     passwd = db.Column(db.String(128))
     mileage = db.Column(db.DECIMAL, index=True)
-    gas_stop = db.relationship('GasStop', backref='jackass', lazy='dynamic')
-    #maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
+    # gas_stop = db.relationship('GasStop', backref='veh', lazy='dynamic')
+    # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
     '''
