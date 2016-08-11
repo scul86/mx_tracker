@@ -7,3 +7,4 @@ __pycache__/*
 .gitignore
 db_repository/*
 app.db
+test.db
