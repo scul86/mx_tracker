@@ -6,3 +6,4 @@ app/__pycache__/*
 __pycache__/*
 .gitignore
 db_repository/*
+app.db
