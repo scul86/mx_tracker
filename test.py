@@ -1,11 +1,6 @@
 #!venv/bin/python3
 
 from app import models, db
-from datetime import datetime
-
-import bcrypt
-
-passwd = bcrypt.hashpw(b'Testing', bcrypt.gensalt())
 
 v = models.Vehicle(name='Ranger')
 print('Prior to add(v)')
