@@ -1,4 +1,3 @@
-from hashlib import md5
 from app import db
 from app import app
 
@@ -7,7 +6,7 @@ class Vehicle(db.Model):
     name = db.Column(db.String(64), index=True, unique=True)
     passwd = db.Column(db.String(128))
     mileage = db.Column(db.DECIMAL, index=True)
-    gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
+    gas_stop = db.relationship('GasStop', backref='jackass', lazy='dynamic')
     #maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
@@ -42,7 +41,7 @@ class Vehicle(db.Model):
         except NameError:
             return str(self.id)  # python 3
         '''
-    
+
     def __repr__(self):
         return '<Vehicle {}>'.format(self.name)
 
