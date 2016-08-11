@@ -6,12 +6,12 @@ class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     passwd = db.Column(db.String(128))
-    mileage = db.Column(db.Integer, index=True)
+    mileage = db.Column(db.DECIMAL, index=True)
     gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
-    maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
+    #maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
-
+    '''
     @staticmethod
     def make_unique_name(name):
         if User.query.filter_by(name=name).first() is None:
@@ -41,9 +41,10 @@ class Vehicle(db.Model):
             return unicode(self.id)  # python 2
         except NameError:
             return str(self.id)  # python 3
-
+        '''
+    
     def __repr__(self):
-        return '<User {}>'.format(self.name)
+        return '<Vehicle {}>'.format(self.name)
 
 
 class GasStop(db.Model):
