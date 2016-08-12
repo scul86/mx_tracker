@@ -2,7 +2,7 @@
 
 import os
 import unittest
-import bcrypt
+from bcrypt import hashpw, gensalt
 
 from config import basedir
 from app import app, db
@@ -23,16 +23,15 @@ class TestCase(unittest.TestCase):
         db.drop_all()
 
     def test_vehicle(self):
-        passwd = 'Testing Password'.encode('utf-8')
-        passwd = bcrypt.hashpw(passwd, bcrypt.gensalt())
+        passwd = hashpw('Testing Password'.encode('utf-8'), gensalt())
         time = datetime.utcnow()
         v = Vehicle(name='Ranger',
-                    passwd=passwd,
+                    passwd_hash=passwd,
                     mileage=10.90,
                     last_updated=time)
 
         assert v.name == 'Ranger'
-        assert v.passwd == bcrypt.hashpw(b'Testing Password', passwd)
+        assert v.verify_passwd('Testing Password')
         assert v.mileage == 10.9
         assert v.last_updated == time
 
