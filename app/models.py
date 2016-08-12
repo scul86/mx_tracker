@@ -10,20 +10,15 @@ class Vehicle(db.Model):
     # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
 
-    '''def __init__(self, name='Null', passwd='Null', *args):
-        self.name = name
-        self.passwd = passwd
-        self.mileage = 10.9'''
-
     '''
     @staticmethod
     def make_unique_name(name):
-        if User.query.filter_by(name=name).first() is None:
+        if Vehicle.query.filter_by(name=name).first() is None:
             return name
         version = 2
         while True:
             new_name = name + str(version)
-            if User.query.filter_by(name=new_name).first() is None:
+            if Vehicle.query.filter_by(name=new_name).first() is None:
                 break
             version += 1
         return new_name

@@ -7,6 +7,7 @@ import bcrypt
 from config import basedir
 from app import app, db
 from app.models import Vehicle, GasStop
+from datetime import datetime
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -25,13 +26,19 @@ class TestCase(unittest.TestCase):
         assert v.name == 'Testing'
 
     def test_passwd(self):
-        passwd = bcrypt.hashpw(b'Testing', bcrypt.gensalt())
+        passwd = 'Testing'.encode('utf-8')
+        passwd = bcrypt.hashpw(passwd, bcrypt.gensalt())
         v = Vehicle(passwd=passwd)
         assert v.passwd == bcrypt.hashpw(b'Testing', passwd)
 
     def test_mileage(self):
         v = Vehicle(mileage=10.90)
         assert v.mileage == 10.9
+
+    def test_last_update(self):
+        time = datetime.utcnow()
+        v = Vehicle(last_updated=time)
+        assert v.last_updated == time
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,3 +8,4 @@ __pycache__/*
 db_repository/*
 app.db
 test.db
+/pw_test.py
