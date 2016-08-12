@@ -38,7 +38,7 @@ class Vehicle(UserMixin, db.Model):
                 break
             version += 1
         return new_name
-
+    '''
     @property
     def is_authenticated(self):
         return True
@@ -56,7 +56,7 @@ class Vehicle(UserMixin, db.Model):
             return unicode(self.id)  # python 2
         except NameError:
             return str(self.id)  # python 3
-
+    '''
     def __repr__(self):
         return '<Vehicle {}>'.format(self.name)
 
@@ -75,3 +75,6 @@ class GasStop(db.Model):
 
     def __repr__(self):
         return '<GasStop {}>'.format(self.id)
+
+'''class Maintenance(db.Model):
+    pass'''
