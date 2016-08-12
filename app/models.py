@@ -1,7 +1,13 @@
-from app import db, app
+from app import db
+from flask_login import UserMixin
+from . import login_manager
 from bcrypt import hashpw, gensalt
 
-class Vehicle(db.Model):
+@login_manager.user_loader
+def load_vehicle(vehicle_id):
+    return Vehicle.query.get(int(vehicle_id))
+
+class Vehicle(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
