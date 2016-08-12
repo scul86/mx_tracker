@@ -2,7 +2,6 @@
 
 import os
 import unittest
-from bcrypt import hashpw, gensalt
 
 from config import basedir
 from app import app, db
@@ -22,18 +21,28 @@ class TestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_vehicle(self):
-        passwd = hashpw('Testing Password'.encode('utf-8'), gensalt())
-        time = datetime.utcnow()
-        v = Vehicle(name='Ranger',
-                    passwd_hash=passwd,
-                    mileage=10.90,
-                    last_updated=time)
+    def test_vehicle_password_setter(self):
+        v = Vehicle(password='Testing Password')
+        self.assertTrue(v.password_hash is not None)
 
-        assert v.name == 'Ranger'
-        assert v.verify_passwd('Testing Password')
-        assert v.mileage == 10.9
-        assert v.last_updated == time
+    def test_no_password_getter(self):
+        v = Vehicle(password='Testing Password')
+        with self.assertRaises(AttributeError):
+            v.password
+
+    def test_password_verification(self):
+        v = Vehicle(password='Testing Password')
+        self.assertTrue(v.verify_passwd('Testing Password'))
+        self.assertFalse(v.verify_passwd('Wrong Password'))
+
+    def test_password_salts_are_random(self):
+        v  = Vehicle(password='password')
+        v2 = Vehicle(password='password')
+        self.assertTrue(v.password_hash != v2.password_hash)
+
+    def test_is_authenticated(self):
+        v = Vehicle()
+        self.assertTrue(v.is_authenticated)
 
     def test_gas_stop(self):
         v = Vehicle(name='Ranger')

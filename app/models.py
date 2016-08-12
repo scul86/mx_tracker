@@ -4,11 +4,10 @@ from bcrypt import hashpw, gensalt
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
-    passwd_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(128))
     mileage = db.Column(db.DECIMAL, index=True)
     gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
-    # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
 
     @property
@@ -17,10 +16,10 @@ class Vehicle(db.Model):
 
     @password.setter
     def password(self, password):
-        self.passwd_hash = hashpw(password.encode('utf-8'), gensalt())
+        self.password_hash = hashpw(password.encode('utf-8'), gensalt())
 
     def verify_passwd(self, password):
-        return self.passwd_hash == hashpw(password.encode('utf-8'), self.passwd_hash)
+        return self.password_hash == hashpw(password.encode('utf-8'), self.password_hash)
 
     @staticmethod
     def make_unique_name(name):
