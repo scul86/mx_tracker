@@ -20,10 +20,18 @@ class TestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def test_name(self):
+        v = Vehicle(name='Testing')
+        assert v.name == 'Testing'
+
     def test_passwd(self):
         passwd = bcrypt.hashpw(b'Testing', bcrypt.gensalt())
-        v = Vehicle(name='Ranger', passwd=passwd)
+        v = Vehicle(passwd=passwd)
         assert v.passwd == bcrypt.hashpw(b'Testing', passwd)
+
+    def test_mileage(self):
+        v = Vehicle(mileage=10.90)
+        assert v.mileage == 10.9
 
 if __name__ == '__main__':
     unittest.main()

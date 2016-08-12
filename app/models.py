@@ -5,10 +5,15 @@ class Vehicle(db.Model):
     name = db.Column(db.String(64), index=True, unique=True)
     passwd = db.Column(db.String(128))
     mileage = db.Column(db.DECIMAL, index=True)
-    # gas_stop = db.relationship('GasStop', backref='veh', lazy='dynamic')
+    gas_stop = db.relationship('GasStop', backref='veh', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     # about_me = db.Column(db.String(140))
     last_updated = db.Column(db.DateTime)
+
+    '''def __init__(self, name='Null', passwd='Null', *args):
+        self.name = name
+        self.passwd = passwd
+        self.mileage = 10.9'''
 
     '''
     @staticmethod
