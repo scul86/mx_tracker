@@ -24,7 +24,7 @@ class Vehicle(UserMixin, db.Model):
     def password(self, password):
         self.password_hash = hashpw(password.encode('utf-8'), gensalt())
 
-    def verify_passwd(self, password):
+    def verify_password(self, password):
         return self.password_hash == hashpw(password.encode('utf-8'), self.password_hash)
 
     @staticmethod

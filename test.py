@@ -32,17 +32,25 @@ class TestCase(unittest.TestCase):
 
     def test_password_verification(self):
         v = Vehicle(password='Testing Password')
-        self.assertTrue(v.verify_passwd('Testing Password'))
-        self.assertFalse(v.verify_passwd('Wrong Password'))
+        self.assertTrue(v.verify_password('Testing Password'))
+        self.assertFalse(v.verify_password('Wrong Password'))
 
     def test_password_salts_are_random(self):
-        v  = Vehicle(password='password')
+        v1 = Vehicle(password='password')
         v2 = Vehicle(password='password')
-        self.assertTrue(v.password_hash != v2.password_hash)
+        self.assertTrue(v1.password_hash != v2.password_hash)
 
     def test_is_authenticated(self):
         v = Vehicle()
         self.assertTrue(v.is_authenticated)
+
+    def test_is_active(self):
+        v = Vehicle()
+        self.assertTrue(v.is_active)
+
+    def test_is_anonymous(self):
+        v = Vehicle()
+        self.assertFalse(v.is_anonymous)
 
     def test_gas_stop(self):
         v = Vehicle(name='Ranger')
