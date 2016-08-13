@@ -8,7 +8,7 @@ from flask_login import login_required
 @app.route('/')
 @app.route('/index')
 def index():
-    return '<h1> Hello World</h1>'
+    return render_template('index.html')
 
 
 @app.route('/vehicle/<name>')
