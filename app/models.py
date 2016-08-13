@@ -2,9 +2,11 @@ from app import db, login_manager
 from flask_login import UserMixin
 from bcrypt import hashpw, gensalt
 
+
 @login_manager.user_loader
 def load_vehicle(vehicle_id):
     return Vehicle.query.get(int(vehicle_id))
+
 
 class Vehicle(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,7 +33,10 @@ class Vehicle(UserMixin, db.Model):
         return self.total_mileage
 
     def add_mileage(self, miles):
-        self.total_mileage += miles
+        if self.total_mileage:
+            self.total_mileage += miles
+        else:
+            self.total_mileage = miles
 
     @staticmethod
     def make_unique_name(name):
