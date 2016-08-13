@@ -29,16 +29,16 @@ def add_gas_stop():
         v = Vehicle.query.filter_by(name=form.vehicle.data).first()
         if v is not None and v.is_authenticated:
             print('Authenticated {}'.format(v))
-            g = GasStop()
-            g.gallons = form.gallons.data
-            g.price = form.price.data
-            g.trip = form.trip.data
-            g.mpg = g.trip / g.gallons
-            g.location = form.location.data
-            g.vehicle_id = v
-            v.add_mileage(g.trip)
-            db.session.add(g)
-            # db.session.commit()
+            stop = GasStop()
+            stop.gallons = form.gallons.data
+            stop.price = form.price.data
+            stop.trip = form.trip.data
+            stop.mpg = stop.trip / stop.gallons
+            stop.location = form.location.data
+            stop.vehicle_id = v.id
+            v.add_mileage(stop.trip)
+            db.session.add(stop)
+            db.session.commit()
             flash('Record added')
             return redirect(request.args.get('next') or url_for('vehicle', name=v.name))
         flash('Invalid Vehicle')
