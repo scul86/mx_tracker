@@ -1,0 +1,15 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <table>
+      <tr valign="top">
+          <td><h1>Vehicle: {{ vehicle.name }}</h1></td>
+      </tr>
+  </table>
+  <hr>
+  {% for stop in stops %}
+  <p>Location: {{ stop.location }}</p>
+  <p>Gallons: {{ stop.gallons }}</p>
+  {% endfor %}
+{% endblock %}
