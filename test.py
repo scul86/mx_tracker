@@ -57,7 +57,7 @@ class TestCase(unittest.TestCase):
         self.assertFalse(v.is_anonymous)
 
     def test_mileage(self):
-        v = Vehicle(tot_mileage=10.9)
+        v = Vehicle(total_mileage=10.9)
         v.add_mileage(10.2)
         self.assertTrue(v.mileage == 21.1)
 

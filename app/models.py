@@ -10,7 +10,7 @@ class Vehicle(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    tot_mileage = db.Column(db.DECIMAL, index=True)
+    total_mileage = db.Column(db.DECIMAL, index=True)
     gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     last_updated = db.Column(db.DateTime)
@@ -28,10 +28,10 @@ class Vehicle(UserMixin, db.Model):
 
     @property
     def mileage(self):
-        return self.tot_mileage
+        return self.total_mileage
 
     def add_mileage(self, miles):
-        self.tot_mileage += miles
+        self.total_mileage += miles
 
     @staticmethod
     def make_unique_name(name):
