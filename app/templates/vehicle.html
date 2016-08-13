@@ -6,15 +6,19 @@
       <tr valign="top">
           <td><h1>Vehicle: {{ vehicle.name }}</h1></td>
       </tr>
+      <tr valign="top">
+          <td>Mileage: {{ '%0.1f'| format(vehicle.mileage) }}</td>
+      </tr>
   </table>
   <hr>
   {% for stop in stops %}
-  <p>Location: {{ stop.location }}</p>
-  <p>Date: {{ stop.timestamp }}
-  <p>Gallons: {{ stop.gallons }}</p>
-  <p>Trip Mileage: {{ stop.trip }}</p>
-  <p>Avg Trip MPG: {{ stop.mpg }}</p>
-  <p></p>
+      <p>Location: {{ stop.location }}</p>
+      <p>Date: {{ stop.timestamp }}
+      <p>Gallons: {{ '%0.1f'| format(stop.gallons) }}</p>
+      <p>Trip Mileage: {{ '%0.1f'| format(stop.trip) }}</p>
+      <p>Avg Trip MPG: {{ '%0.2f'| format(stop.mpg) }}</p>
+      <p></p>
   <hr>
   {% endfor %}
+  
 {% endblock %}
