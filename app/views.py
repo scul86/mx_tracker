@@ -34,6 +34,6 @@ def add_gas_stop():
         db.session.add(g)
         db.session.commit()
         flash('Record added')
-        #TODO: fix the name arg in below line
+        # TODO: fix the name arg in below line
         return redirect(request.args.get('next') or url_for('vehicle', name=v.name))
     return render_template('add_gas_stop.html', form=form)
