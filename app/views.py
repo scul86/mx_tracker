@@ -41,6 +41,6 @@ def add_gas_stop():
             # db.session.commit()
             flash('Record added')
             return redirect(request.args.get('next') or url_for('vehicle', name=v.name))
-        flash('Please login')
-        return  redirect(url_for('auth.login'))
+        flash('Invalid Vehicle')
+        return  redirect(url_for('add_gas_stop'))
     return render_template('add_gas_stop.html', form=form)
