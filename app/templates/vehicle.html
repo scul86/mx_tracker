@@ -1,7 +1,7 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
-{% block content %}
+{% block page_content %}
   <table>
       <tr valign="top">
           <td><h1>Vehicle: {{ vehicle.name }}</h1></td>
@@ -11,5 +11,8 @@
   {% for stop in stops %}
   <p>Location: {{ stop.location }}</p>
   <p>Gallons: {{ stop.gallons }}</p>
+  <p>Trip Mileage: {{ stop.trip }}</p>
+  <p>Avg Trip MPG: {{ stop.mpg }}</p>
+  <p></p>
   {% endfor %}
 {% endblock %}
