@@ -32,8 +32,11 @@ class TestCase(unittest.TestCase):
 
     def test_password_verification(self):
         v = Vehicle(password='Testing Password')
-        self.assertTrue(v.verify_password('Testing Password'))
-        self.assertFalse(v.verify_password('Wrong Password'))
+        db.session.add(v)
+        db.session.commit()
+        veh = Vehicle.query.first()
+        self.assertTrue(veh.verify_password('Testing Password'))
+        self.assertFalse(veh.verify_password('Wrong Password'))
 
     def test_password_salts_are_random(self):
         v1 = Vehicle(password='password')

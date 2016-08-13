@@ -9,3 +9,4 @@ db_repository/*
 app.db
 test.db
 /pw_test.py
+app/auth/__pycache__/*
