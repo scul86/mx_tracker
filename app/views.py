@@ -22,18 +22,18 @@ def vehicle(name):
 def add_gas_stop():
     form = AddGasStopForm()
     if form.validate_on_submit():
-        vehicle = Vehicle.query.filter_by(name=form.vehicle.data).first()
+        v = Vehicle.query.filter_by(name=form.vehicle.data).first()
         g = GasStop()
         g.gallons = form.gallons.data
         g.price = form.price.data
         g.trip = form.trip.data
         g.mpg = g.trip / g.gallons
         g.location = form.location.data
-        g.vehicle_id = vehicle
-        vehicle.add_mileage(g.trip)
+        g.vehicle_id = v
+        v.add_mileage(g.trip)
         db.session.add(g)
         db.session.commit()
         flash('Record added')
         #TODO: fix the name arg in below line
-        return redirect(request.args.get('next') or url_for('vehicle', name=vehicle.name))
+        return redirect(request.args.get('next') or url_for('vehicle', name=v.name))
     return render_template('add_gas_stop.html', form=form)
