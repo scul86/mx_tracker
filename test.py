@@ -8,6 +8,7 @@ from app import app, db
 from app.models import Vehicle, GasStop
 from datetime import datetime
 
+
 class TestCase(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
@@ -55,6 +56,11 @@ class TestCase(unittest.TestCase):
         v = Vehicle()
         self.assertFalse(v.is_anonymous)
 
+    def test_mileage(self):
+        v = Vehicle(tot_mileage=10.9)
+        v.add_mileage(10.2)
+        self.assertTrue(v.get_mileage == 21.1)
+
     def test_gas_stop(self):
         v = Vehicle(name='Ranger')
         GasStop(gallons=10.5,
@@ -62,12 +68,13 @@ class TestCase(unittest.TestCase):
                 trip=123.45,
                 vehicle=v)
         stop = v.gas_stop.all()[0]
-        stop.mpg = stop.trip/stop.gallons
+        stop.mpg = stop.trip / stop.gallons
         assert stop.gallons == 10.5
         assert stop.price == 1.25
         assert stop.trip == 123.45
-        assert stop.mpg == 123.45/10.5
+        assert stop.mpg == 123.45 / 10.5
         assert stop.vehicle.name == 'Ranger'
+
 
 if __name__ == '__main__':
     unittest.main()

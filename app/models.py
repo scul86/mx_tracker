@@ -10,7 +10,7 @@ class Vehicle(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    mileage = db.Column(db.DECIMAL, index=True)
+    tot_mileage = db.Column(db.DECIMAL, index=True)
     gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     last_updated = db.Column(db.DateTime)
@@ -26,6 +26,13 @@ class Vehicle(UserMixin, db.Model):
     def verify_password(self, password):
         return self.password_hash == hashpw(password.encode('utf-8'), self.password_hash)
 
+    @property
+    def get_mileage(self):
+        return self.tot_mileage
+
+    def add_mileage(self, miles):
+        self.tot_mileage += miles
+
     @staticmethod
     def make_unique_name(name):
         if Vehicle.query.filter_by(name=name).first() is None:
@@ -37,25 +44,7 @@ class Vehicle(UserMixin, db.Model):
                 break
             version += 1
         return new_name
-    '''
-    @property
-    def is_authenticated(self):
-        return True
 
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        try:
-            return unicode(self.id)  # python 2
-        except NameError:
-            return str(self.id)  # python 3
-    '''
     def __repr__(self):
         return '<Vehicle {}>'.format(self.name)
 

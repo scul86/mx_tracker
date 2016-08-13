@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 bootstrap.init_app(app)
 login_manager.init_app(app)
 
-from .auth import auth as auth_blueprint
+from .auth import auth as auth_blueprint # This call needs to be after creation of 'db' variable
 app.register_blueprint(auth_blueprint)
 
 from app import views, models
