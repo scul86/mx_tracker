@@ -27,7 +27,7 @@ class Vehicle(UserMixin, db.Model):
         return self.password_hash == hashpw(password.encode('utf-8'), self.password_hash)
 
     @property
-    def get_mileage(self):
+    def mileage(self):
         return self.tot_mileage
 
     def add_mileage(self, miles):

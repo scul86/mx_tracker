@@ -59,7 +59,7 @@ class TestCase(unittest.TestCase):
     def test_mileage(self):
         v = Vehicle(tot_mileage=10.9)
         v.add_mileage(10.2)
-        self.assertTrue(v.get_mileage == 21.1)
+        self.assertTrue(v.mileage == 21.1)
 
     def test_gas_stop(self):
         v = Vehicle(name='Ranger')
