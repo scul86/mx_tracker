@@ -54,8 +54,6 @@ class Vehicle(UserMixin, db.Model):
 
 
 class GasStop(db.Model):
-    # __searchable__ = ['body']
-
     id = db.Column(db.Integer, primary_key=True)
     gallons = db.Column(db.DECIMAL)
     price = db.Column(db.DECIMAL)
