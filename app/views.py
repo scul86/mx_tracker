@@ -1,8 +1,14 @@
 from app import app, db
 from .models import Vehicle, GasStop
 from .forms import AddGasStopForm
-from flask import render_template, redirect, request, url_for, flash, abort
-from flask_login import login_required
+from flask import render_template, redirect, \
+    request, url_for, flash, abort, g
+from flask_login import login_required, current_user
+
+
+@app.before_request
+def before_request():
+    g.vehicle = current_user
 
 
 @app.route('/')
@@ -24,23 +30,23 @@ def vehicle(name):
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
 @login_required
 def add_gas_stop():
-    form = AddGasStopForm()
+    form = AddGasStopForm(vehicle=g.vehicle.name)
     if form.validate_on_submit():
-        v = Vehicle.query.filter_by(name=form.vehicle.data).first()
-        if v is not None and v.is_authenticated:
-            print('Authenticated {}'.format(v))
+        vehicle = Vehicle.query.filter_by(name=form.vehicle.data).first()
+        if vehicle is not None and vehicle.is_authenticated:
+            print('Authenticated {}'.format(vehicle))
             stop = GasStop()
             stop.gallons = form.gallons.data
             stop.price = form.price.data
             stop.trip = form.trip.data
             stop.mpg = stop.trip / stop.gallons
             stop.location = form.location.data
-            stop.vehicle_id = v.id
-            v.add_mileage(stop.trip)
+            stop.vehicle_id = vehicle.id
+            vehicle.add_mileage(stop.trip)
             db.session.add(stop)
             db.session.commit()
             flash('Record added')
-            return redirect(request.args.get('next') or url_for('vehicle', name=v.name))
+            return redirect(request.args.get('next') or url_for('vehicle', name=vehicle.name))
         flash('Invalid Vehicle')
-        return  redirect(url_for('add_gas_stop'))
+        return redirect(url_for('add_gas_stop'))
     return render_template('add_gas_stop.html', form=form)
