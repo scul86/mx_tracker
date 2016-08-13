@@ -46,9 +46,8 @@ class Vehicle(UserMixin, db.Model):
         while True:
             new_name = name + str(version)
             if Vehicle.query.filter_by(name=new_name).first() is None:
-                break
+                return new_name
             version += 1
-        return new_name
 
     def __repr__(self):
         return '<Vehicle {}>'.format(self.name)
