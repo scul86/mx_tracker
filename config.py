@@ -8,6 +8,8 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+DATE_FORMAT = "%Y-%m-%d"
+
 # email server
 '''MAIL_SERVER = 'your.mailserver.com'
 MAIL_PORT = 25
