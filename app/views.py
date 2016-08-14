@@ -34,7 +34,7 @@ def add_gas_stop():
     if form.validate_on_submit():
         vehicle = Vehicle.query.filter_by(name=form.vehicle.data).first()
         if vehicle is not None and vehicle.is_authenticated:
-            print('Authenticated {}'.format(vehicle))
+            # print('Authenticated {}'.format(vehicle))
             stop = GasStop()
             stop.gallons = form.gallons.data
             stop.price = form.price.data
