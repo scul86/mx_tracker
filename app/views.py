@@ -4,6 +4,7 @@ from .forms import AddGasStopForm
 from flask import render_template, redirect, \
     request, url_for, flash, abort, g
 from flask_login import login_required, current_user
+from config import DATE_FORMAT
 
 
 @app.before_request
@@ -24,7 +25,7 @@ def vehicle(name):
     if not v:
         abort(404)
     stops = v.gas_stop.all()
-    return render_template('vehicle.html', vehicle=v, stops=stops)
+    return render_template('vehicle.html', vehicle=v, stops=stops, DATE_FORMAT=DATE_FORMAT)
 
 
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
@@ -41,6 +42,7 @@ def add_gas_stop():
             stop.trip = form.trip.data
             stop.mpg = stop.trip / stop.gallons
             stop.location = form.location.data
+            stop.timestamp = form.date.data
             stop.vehicle_id = vehicle.id
             vehicle.add_mileage(stop.trip)
             db.session.add(stop)

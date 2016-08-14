@@ -13,7 +13,7 @@
   <hr>
   {% for stop in stops %}
       <p>Location: {{ stop.location }}</p>
-      <p>Date: {{ stop.timestamp }}
+      <p>Date: {{ stop.timestamp.strftime(DATE_FORMAT) }}
       <p>Gallons: {{ '%0.1f'| format(stop.gallons) }}</p>
       <p>Trip Mileage: {{ '%0.1f'| format(stop.trip) }}</p>
       <p>Avg Trip MPG: {{ '%0.2f'| format(stop.mpg) }}</p>
