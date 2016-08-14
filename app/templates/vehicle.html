@@ -1,5 +1,6 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block head %}
     {{ super() }}
@@ -15,24 +16,12 @@
             <td>Mileage: {{ '%0.1f'| format(vehicle.mileage) }}</td>
         </tr>
     </table>
-    {% for stop in stops %}
-        <hr>
-        <table id="t01">
-            <tr valign="top">
-                <td>Location: </td><td>{{ stop.location }}</td>
-            </tr>
-            <tr valign="top">
-                <td>Date: </td><td>{{ stop.timestamp.strftime(DATE_FORMAT) }}</td>
-            </tr>
-            <tr valign="top">
-                <td>Gallons: </td><td>{{ '%0.1f'| format(stop.gallons) }}</td>
-            </tr>
-            <tr valign="top">
-                <td>Trip Mileage: </td><td>{{ '%0.1f'| format(stop.trip) }}</td>
-            </tr>
-            <tr valign="top">
-                <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(stop.mpg) }}</td>
-            </tr>
-        </table>
+    {% for stop in stops.items %}
+        {% include '_stop.html' %}
     {% endfor %}
+    {% if stops %}
+        <div class="pagination">
+            {{ macros.pagination_widget(stops, 'vehicle', name=vehicle.name) }}
+        </div>
+    {% endif %}
 {% endblock %}

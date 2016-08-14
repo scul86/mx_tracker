@@ -4,7 +4,7 @@ from .forms import AddGasStopForm
 from flask import render_template, redirect, \
     request, url_for, flash, abort, g
 from flask_login import login_required, current_user
-from config import DATE_FORMAT
+from config import DATE_FORMAT, POSTS_PER_PAGE
 
 
 @app.before_request
@@ -19,12 +19,14 @@ def index():
 
 
 @app.route('/vehicle/<name>')
+@app.route('/vehicle/<name>/<int:page_num>')
 @login_required
-def vehicle(name):
+def vehicle(name, page_num=1):
     v = Vehicle.query.filter_by(name=name).first()
     if not v:
         abort(404)
-    stops = v.gas_stop.all()
+    # stops = v.gas_stop.all()
+    stops = v.gas_stop.paginate(page_num, POSTS_PER_PAGE, False)
     return render_template('vehicle.html', vehicle=v,
                            stops=stops, DATE_FORMAT=DATE_FORMAT)
 
@@ -36,7 +38,6 @@ def add_gas_stop():
     if form.validate_on_submit():
         vehicle = Vehicle.query.get(form.vehicle.data)
         if vehicle is not None and vehicle.is_authenticated:
-            # print('Authenticated {}'.format(vehicle))
             stop = GasStop()
             stop.gallons = form.gallons.data
             stop.price = form.price.data
@@ -46,8 +47,11 @@ def add_gas_stop():
             stop.timestamp = form.date.data
             stop.vehicle_id = vehicle.id
             vehicle.add_mileage(stop.trip)
-            if form.update_tot.data:
+            if form.correct_tot_mileage.data and form.tot.data:
                 vehicle.set_mileage(form.tot.data)
+                flash('Vehicle mileage corrected')
+            elif form.correct_tot_mileage.data and not form.tot.data:
+                flash('Notice: Vehicle mileage not corrected')
             db.session.add(stop)
             db.session.commit()
             flash('Record added')

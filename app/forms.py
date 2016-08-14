@@ -16,5 +16,5 @@ class AddGasStopForm(Form):
     price = DecimalField('Price per gallon', validators=[DataRequired()])
     trip = DecimalField('Trip OD', validators=[DataRequired()])
     tot = DecimalField('Vehicle OD', validators=[Optional()], description='Optional')
-    update_tot = BooleanField('Update Vehicle Mileage')
+    correct_tot_mileage = BooleanField('Correct Vehicle Mileage')
     submit = SubmitField('Submit')
