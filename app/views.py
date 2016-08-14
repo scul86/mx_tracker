@@ -25,7 +25,8 @@ def vehicle(name):
     if not v:
         abort(404)
     stops = v.gas_stop.all()
-    return render_template('vehicle.html', vehicle=v, stops=stops, DATE_FORMAT=DATE_FORMAT)
+    return render_template('vehicle.html', vehicle=v,
+                           stops=stops, DATE_FORMAT=DATE_FORMAT)
 
 
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
@@ -33,7 +34,7 @@ def vehicle(name):
 def add_gas_stop():
     form = AddGasStopForm(vehicle=g.vehicle.name)
     if form.validate_on_submit():
-        vehicle = Vehicle.query.filter_by(name=form.vehicle.data).first()
+        vehicle = Vehicle.query.get(form.vehicle.data)
         if vehicle is not None and vehicle.is_authenticated:
             # print('Authenticated {}'.format(vehicle))
             stop = GasStop()
@@ -45,10 +46,13 @@ def add_gas_stop():
             stop.timestamp = form.date.data
             stop.vehicle_id = vehicle.id
             vehicle.add_mileage(stop.trip)
+            if form.update_tot.data:
+                vehicle.set_mileage(form.tot.data)
             db.session.add(stop)
             db.session.commit()
             flash('Record added')
-            return redirect(request.args.get('next') or url_for('vehicle', name=vehicle.name))
+            return redirect(request.args.get('next') or
+                            url_for('vehicle', name=vehicle.name))
         flash('Invalid Vehicle')
         return redirect(url_for('add_gas_stop'))
     return render_template('add_gas_stop.html', form=form)

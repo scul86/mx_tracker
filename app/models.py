@@ -26,17 +26,21 @@ class Vehicle(UserMixin, db.Model):
         self.password_hash = hashpw(password.encode('utf-8'), gensalt())
 
     def verify_password(self, password):
-        return self.password_hash == hashpw(password.encode('utf-8'), self.password_hash)
+        return self.password_hash == hashpw(password.encode('utf-8'),
+                                            self.password_hash)
 
     @property
     def mileage(self):
         return self.total_mileage
 
+    def set_mileage(self, miles):
+        self.total_mileage = miles
+
     def add_mileage(self, miles):
         if self.total_mileage:
             self.total_mileage += miles
         else:
-            self.total_mileage = miles
+            self.set_mileage(miles)
 
     @staticmethod
     def make_unique_name(name):
