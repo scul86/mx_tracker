@@ -63,3 +63,19 @@ def add_gas_stop():
         flash('Invalid Vehicle')
         return redirect(url_for('add_gas_stop'))
     return render_template('add_gas_stop.html', form=form)
+
+
+@app.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    stop = GasStop.query.get(id)
+    if stop is None:
+        flash('Not found')
+        return redirect(url_for('vehicle', name=g.vehicle.name))
+    if stop.vehicle.id != g.vehicle.id:
+        flash('You can\'t delete that stop')
+        return redirect(url_for('vehicle', name=g.vehicle.name))
+    db.session.delete(stop)
+    db.session.commit()
+    flash('Gas stop deleted')
+    return redirect(url_for('vehicle', name=g.vehicle.name))
