@@ -1,0 +1,8 @@
+{% for message in get_flashed_messages() %}
+    {% if message[:5] == 'popup' %}
+        <script>
+            var message = {{ message[4:] | safe }};
+            alert("Hello World");
+        </script>
+    {% endif %}
+{% endfor %}

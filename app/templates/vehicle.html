@@ -16,6 +16,9 @@
             <td>Mileage: {{ '%0.1f'| format(vehicle.mileage) }}</td>
         </tr>
     </table>
+    {% block flash_messages %}
+        {% include '_inline_message.html' %}
+    {% endblock %}
     {% for stop in stops.items %}
         {% include '_stop.html' %}
     {% endfor %}
