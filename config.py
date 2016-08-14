@@ -22,4 +22,4 @@ MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 ADMINS = ['you@example.com']
 '''
 # pagination
-POSTS_PER_PAGE = 3
+POSTS_PER_PAGE = 5
