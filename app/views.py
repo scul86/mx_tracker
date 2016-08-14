@@ -26,7 +26,7 @@ def vehicle(name, page_num=1):
     if not v:
         abort(404)
     # stops = v.gas_stop.all()
-    stops = v.gas_stop.order_by(GasStop.timestamp.asc()).paginate(page_num, POSTS_PER_PAGE, False)
+    stops = v.gas_stop.order_by(GasStop.timestamp.desc()).paginate(page_num, POSTS_PER_PAGE, False)
     return render_template('vehicle.html', vehicle=v,
                            stops=stops, DATE_FORMAT=DATE_FORMAT)
 
