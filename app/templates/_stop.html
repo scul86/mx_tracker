@@ -16,3 +16,7 @@
         <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(stop.mpg) }}</td>
     </tr>
 </table>
+
+{% if stop.vehicle.id == g.vehicle.id %}
+<div><a href="{{ url_for('delete', id=stop.id) }}">Delete</a> </div>
+{% endif %}
