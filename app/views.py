@@ -4,6 +4,8 @@ from .forms import AddGasStopForm
 from flask import render_template, redirect, \
     request, url_for, flash, abort, g
 from flask_login import login_required, current_user
+from datetime import datetime
+
 from config import DATE_FORMAT, POSTS_PER_PAGE
 
 
@@ -26,7 +28,8 @@ def vehicle(name, page_num=1):
     if not v:
         abort(404)
     # stops = v.gas_stop.all()
-    stops = v.gas_stop.order_by(GasStop.timestamp.desc()).paginate(page_num, POSTS_PER_PAGE, False)
+    stops = v.gas_stop.order_by(GasStop.timestamp.desc()).\
+              paginate(page_num, POSTS_PER_PAGE, False)
     return render_template('vehicle.html', vehicle=v,
                            stops=stops, DATE_FORMAT=DATE_FORMAT)
 
@@ -34,7 +37,7 @@ def vehicle(name, page_num=1):
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
 @login_required
 def add_gas_stop():
-    form = AddGasStopForm(vehicle=g.vehicle.name)
+    form = AddGasStopForm(vehicle=g.vehicle.name, date=datetime.utcnow())
     if form.validate_on_submit():
         vehicle = Vehicle.query.get(form.vehicle.data)
         if vehicle is not None and vehicle.is_authenticated:
