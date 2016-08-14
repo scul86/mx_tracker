@@ -2,37 +2,37 @@
 {% extends "base.html" %}
 
 {% block head %}
-{{ super() }}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vehicle.css') }}">
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vehicle.css') }}">
 {% endblock %}
 
 {% block page_content %}
-  <table>
-      <tr valign="top">
-          <td><h1>Vehicle: {{ vehicle.name }}</h1></td>
-      </tr>
-      <tr valign="top">
-          <td>Mileage: {{ '%0.1f'| format(vehicle.mileage) }}</td>
-      </tr>
-  </table>
-  {% for stop in stops %}
-    <hr>
-    <table id="t01">
-      <tr valign="top">
-        <td text-align="right">Location: </td><td>{{ stop.location }}</td>
-      </tr>
-      <tr valign="top">
-        <td>Date: </td><td>{{ stop.timestamp.strftime(DATE_FORMAT) }}</td>
-      </tr>
-      <tr valign="top">
-        <td>Gallons: </td><td>{{ '%0.1f'| format(stop.gallons) }}</td>
-      </tr>
-      <tr valign="top">
-        <td>Trip Mileage: </td><td>{{ '%0.1f'| format(stop.trip) }}</td>
-      </tr>
-      <tr valign="top">
-        <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(stop.mpg) }}</td>
-      </tr>
+    <table>
+        <tr valign="top">
+            <td><h1>Vehicle: {{ vehicle.name }}</h1></td>
+        </tr>
+        <tr valign="top">
+            <td>Mileage: {{ '%0.1f'| format(vehicle.mileage) }}</td>
+        </tr>
     </table>
-  {% endfor %}
+    {% for stop in stops %}
+        <hr>
+        <table id="t01">
+            <tr valign="top">
+                <td>Location: </td><td>{{ stop.location }}</td>
+            </tr>
+            <tr valign="top">
+                <td>Date: </td><td>{{ stop.timestamp.strftime(DATE_FORMAT) }}</td>
+            </tr>
+            <tr valign="top">
+                <td>Gallons: </td><td>{{ '%0.1f'| format(stop.gallons) }}</td>
+            </tr>
+            <tr valign="top">
+                <td>Trip Mileage: </td><td>{{ '%0.1f'| format(stop.trip) }}</td>
+            </tr>
+            <tr valign="top">
+                <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(stop.mpg) }}</td>
+            </tr>
+        </table>
+    {% endfor %}
 {% endblock %}
