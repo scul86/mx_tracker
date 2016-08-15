@@ -38,7 +38,9 @@ def vehicle(name, page_num=1):
 @login_required
 def add_gas_stop():
     form = AddGasStopForm(date=datetime.utcnow())
+    form.vehicle.choices = [(v.id, v.name) for v in Vehicle.query.all()]
     form.vehicle.data = g.vehicle.id
+    form.vehicle.coerce = int
     if form.validate_on_submit():
         vehicle = Vehicle.query.get(form.vehicle.data)
         if vehicle is not None and vehicle.is_authenticated and vehicle.id == g.vehicle.id:
@@ -80,3 +82,13 @@ def delete(id):
     db.session.commit()
     flash('Gas stop deleted')
     return redirect(url_for('vehicle', name=g.vehicle.name))
+
+# TODO: add the html files
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
+
+
+@app.errorhandler(500)
+def page_not_found(error):
+    return render_template('server_error.html'), 500
