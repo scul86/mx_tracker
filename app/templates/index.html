@@ -3,4 +3,7 @@
 
 {% block content %}
     {{ super() }}
+    {% block flash_messages %}
+        {% include '_inline_message.html' %}
+    {% endblock %}
 {% endblock %}
