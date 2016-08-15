@@ -7,6 +7,9 @@
 <div class="page-header">
     <h1>Add Gas Stop</h1>
 </div>
+{% block flash_messages %}
+    {% include '_inline_message.html' %}
+{% endblock %}
 <div class="col-md-4">
     {{ wtf.quick_form(form) }}
 </div>
