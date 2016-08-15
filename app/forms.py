@@ -3,14 +3,10 @@ from wtforms import BooleanField, StringField, DecimalField, \
     SubmitField, DateTimeField, SelectField
 from wtforms.validators import DataRequired, Length, Optional
 from config import DATE_TIME_FORMAT
-from .models import Vehicle
 
 
 class AddGasStopForm(Form):
-    choices = [(v.id, v.name) for v in Vehicle.query.all()]
-    vehicle = SelectField('Vehicle',
-                           choices=choices,
-                           coerce=int)
+    vehicle = SelectField('Vehicle')
     date = DateTimeField('Date (UTC)',
                            validators=[DataRequired()],
                            format=DATE_TIME_FORMAT,
