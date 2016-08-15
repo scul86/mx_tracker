@@ -37,10 +37,11 @@ def vehicle(name, page_num=1):
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
 @login_required
 def add_gas_stop():
-    form = AddGasStopForm(vehicle=g.vehicle.name, date=datetime.utcnow())
+    form = AddGasStopForm(date=datetime.utcnow())
+    form.vehicle.data = g.vehicle.id
     if form.validate_on_submit():
         vehicle = Vehicle.query.get(form.vehicle.data)
-        if vehicle is not None and vehicle.is_authenticated:
+        if vehicle is not None and vehicle.is_authenticated and vehicle.id == g.vehicle.id:
             stop = GasStop()
             stop.gallons = form.gallons.data
             stop.price = form.price.data
