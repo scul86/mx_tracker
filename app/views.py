@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, set_pickled_decimal
 from .models import Vehicle, GasStop
 from .forms import AddGasStopForm
 from flask import render_template, redirect, \
@@ -7,6 +7,8 @@ from flask_login import login_required, current_user
 from datetime import datetime
 
 from config import DATE_FORMAT, POSTS_PER_PAGE
+
+import pickle
 
 
 @app.before_request
@@ -27,11 +29,12 @@ def vehicle(name, page_num=1):
     v = Vehicle.query.filter_by(name=name).first()
     if not v:
         abort(404)
-    # stops = v.gas_stop.all()
+    if not v.total_mileage:
+        v.set_mileage(0)
     stops = v.gas_stop.order_by(GasStop.timestamp.desc()).\
               paginate(page_num, POSTS_PER_PAGE, False)
     return render_template('vehicle.html', vehicle=v,
-                           stops=stops, DATE_FORMAT=DATE_FORMAT)
+                           stops=stops, DATE_FORMAT=DATE_FORMAT, loads=pickle.loads)
 
 
 @app.route('/add_gas_stop', methods=['GET', 'POST'])
@@ -45,14 +48,14 @@ def add_gas_stop():
         vehicle = Vehicle.query.get(form.vehicle.data)
         if vehicle is not None and vehicle.is_authenticated and vehicle.id == g.vehicle.id:
             stop = GasStop()
-            stop.gallons = form.gallons.data
-            stop.price = form.price.data
-            stop.trip = form.trip.data
-            stop.mpg = stop.trip / stop.gallons
+            stop.gallons = set_pickled_decimal(form.gallons.data)
+            stop.price = set_pickled_decimal(form.price.data)
+            stop.trip = set_pickled_decimal(form.trip.data)
+            stop.mpg = set_pickled_decimal(form.trip.data / form.gallons.data)
             stop.location = form.location.data
             stop.timestamp = form.date.data
             stop.vehicle_id = vehicle.id
-            vehicle.add_mileage(stop.trip)
+            vehicle.add_mileage(form.trip.data)
             if form.correct_tot_mileage.data and form.tot.data:
                 vehicle.set_mileage(form.tot.data)
                 flash('Vehicle mileage corrected')

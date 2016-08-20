@@ -2,7 +2,19 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from decimal import *
+
+import pickle
 # from config import config
+
+
+def set_pickled_decimal(num):
+    float(num) # This just makes sure the param is a number
+    return pickle.dumps(Decimal(num))
+
+
+def add_pickled_data(a, b):
+    return pickle.dumps(pickle.loads(a) + pickle.loads(b))
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'

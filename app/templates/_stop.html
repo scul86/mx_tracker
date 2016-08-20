@@ -7,13 +7,13 @@
         <td>Date: </td><td>{{ stop.timestamp.strftime(DATE_FORMAT) }}</td>
     </tr>
     <tr valign="top">
-        <td>Gallons: </td><td>{{ '%0.1f'| format(stop.gallons) }}</td>
+        <td>Gallons: </td><td>{{ '%0.1f'| format(loads(stop.gallons)) }}</td>
     </tr>
     <tr valign="top">
-        <td>Trip Mileage: </td><td>{{ '%0.1f'| format(stop.trip) }}</td>
+        <td>Trip Mileage: </td><td>{{ '%0.1f'| format(loads(stop.trip)) }}</td>
     </tr>
     <tr valign="top">
-        <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(stop.mpg) }}</td>
+        <td>Avg Trip MPG: </td><td>{{ '%0.2f'| format(loads(stop.mpg)) }}</td>
     </tr>
 </table>
 

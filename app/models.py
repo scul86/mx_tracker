@@ -1,6 +1,8 @@
-from app import db, login_manager
+from app import db, login_manager, set_pickled_decimal
 from flask_login import UserMixin
 from bcrypt import hashpw, gensalt
+from decimal import *
+import pickle
 
 
 @login_manager.user_loader
@@ -12,7 +14,7 @@ class Vehicle(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    total_mileage = db.Column(db.DECIMAL, index=True)
+    total_mileage = db.Column(db.String(64), index=True)
     gas_stop = db.relationship('GasStop', backref='vehicle', lazy='dynamic')
     # maint = db.relationship('Maintenance', backref='vehicle', lazy='dynamic')
     last_updated = db.Column(db.DateTime)
@@ -31,14 +33,14 @@ class Vehicle(UserMixin, db.Model):
 
     @property
     def mileage(self):
-        return self.total_mileage
+        return pickle.loads(self.total_mileage)
 
     def set_mileage(self, miles):
-        self.total_mileage = miles
+        self.total_mileage = set_pickled_decimal(miles)
 
     def add_mileage(self, miles):
         if self.total_mileage:
-            self.total_mileage += miles
+            self.set_mileage(pickle.loads(self.total_mileage) + Decimal(miles))
         else:
             self.set_mileage(miles)
 
@@ -59,10 +61,10 @@ class Vehicle(UserMixin, db.Model):
 
 class GasStop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    gallons = db.Column(db.DECIMAL)
-    price = db.Column(db.DECIMAL)
-    trip = db.Column(db.DECIMAL)
-    mpg = db.Column(db.DECIMAL)
+    gallons = db.Column(db.String(64))
+    price = db.Column(db.String(64))
+    trip = db.Column(db.String(64))
+    mpg = db.Column(db.String(64))
     location = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime)
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))
